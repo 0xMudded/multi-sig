@@ -2,11 +2,11 @@
 pragma solidity ^0.8.13;
 
 contract MultiSigWallet {
-    event Deposit(address sender, uint amount, uint balance);
-    event Initiated(uint txId, address owner);
-    event Approved(uint txId, address owner);
-    event Executed(uint txId, address owner);
-    event Revoked(uint txId, address owner);
+    event Deposit(address indexed sender, uint amount, uint balance);
+    event Initiated(uint indexed txId, address indexed owner, address indexed to, uint value, bytes data);
+    event Approved(uint indexed txId, address indexed owner);
+    event Executed(uint indexed txId, address indexed owner);
+    event Revoked(uint indexed txId, address indexed owner);
 
     struct Transaction {
         address to;
@@ -61,7 +61,7 @@ contract MultiSigWallet {
 
     function initiate(address _to, uint _value, bytes calldata _data) public onlyOwner {
         transactions.push(Transaction(_to, _value, _data, false));
-        emit Initiated(transactions.length - 1, msg.sender);
+        emit Initiated(transactions.length - 1, msg.sender, _to, _value, _data);
     }
 
     function approve(uint _txId) public onlyOwner exists(_txId) notApproved(_txId) notExecuted(_txId) {
