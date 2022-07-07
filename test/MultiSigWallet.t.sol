@@ -9,12 +9,12 @@ contract MultiSigWalletTest is Test {
     MultiSigWallet internal msw;
     address internal recipient = vm.addr(3);
     address internal notOwner = address(5);
-    uint internal sendAmount = 1000000;
+    uint256 internal sendAmount = 1000000;
 
     function setUp() public {
         owners.push(address(this));
 
-        for (uint i = 1; i <= 2; i++) {
+        for (uint256 i = 1; i <= 2; i++) {
             owners.push(vm.addr(i));
         }
 
@@ -162,7 +162,7 @@ contract MultiSigWalletTest is Test {
     }
 
     function approveAllOwners() public {
-        for (uint i; i < owners.length; i++) {
+        for (uint256 i; i < owners.length; i++) {
             vm.prank(owners[i]);
             msw.approve(0);
             vm.stopPrank();
